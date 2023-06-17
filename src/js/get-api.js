@@ -1,5 +1,6 @@
 import consts from './consts';
-const axios = require('axios').default;
+// const axios = require('axios').default;
+import axios from 'axios';
 
 async function getApi(filter, page) {
   return await axios.get(

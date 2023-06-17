@@ -36,21 +36,24 @@ function findElem(e) {
 
 function getElements(pageIndex) {
   showMore.classList.add('none');
-
+  if (findInput.value.trim() === '') {
+    Notiflix.Notify.warning('Warning!!! The input is empty!');
+    return;
+  }
   API.getApi(findInput.value, pageIndex)
     .then(findImages => {
-      console.log(findImages.data);
       fillResultField(findImages.data.hits);
-      if (findImages.data.hits.length === 40) {
-        showMore.classList.remove('none');
-      } else {
-        Notiflix.Notify.failure(
-          "We're sorry, but you've reached the end of search results."
-        );
-      }
       if (page === 1) {
         Notiflix.Notify.success(
           `Hooray! We found ${findImages.data.total} images.`
+        );
+      }
+      if (page < Math.ceil(findImages.data.total / 40)) {
+        showMore.classList.remove('none');
+      }
+      if (findImages.data.hits.length < 40 && page !== 1) {
+        Notiflix.Notify.info(
+          "We're sorry, but you've reached the end of search results."
         );
       }
     })
