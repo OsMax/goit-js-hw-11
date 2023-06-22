@@ -48,7 +48,7 @@ function getElements(pageIndex) {
           `Hooray! We found ${findImages.data.total} images.`
         );
       }
-      if (page < Math.ceil(findImages.data.total / 40)) {
+      if (page < Math.ceil(findImages.data.totalHits / 40)) {
         showMore.classList.remove('none');
       }
       if (findImages.data.hits.length < 40 && page !== 1) {
