@@ -17,19 +17,43 @@ const findForm = document.querySelector('.search-form');
 const resultField = document.querySelector('.gallery');
 const showMore = document.querySelector('#show-more');
 
+// ===========================================================================================
+// ----------------------------------------OBSERVER-------------------------------------------
+// ===========================================================================================
+
+const options = {
+  rootMargin: '50px',
+  threshold: 0.5,
+};
+
+const onEntry = (entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (findInput.value.trim() !== '') {
+        addNewElements();
+      }
+    }
+  });
+};
+
+const observer = new IntersectionObserver(onEntry, options);
+
+observer.observe(showMore);
+
 let page = 1;
 let lightbox = new SimpleLightbox('.gallery a', {
   caption: true,
   captionsData: 'alt',
   captionDelay: 250,
 });
+// ===========================================================================================
 
 findForm.addEventListener('submit', findElem);
-showMore.addEventListener('click', addNewElements);
+// showMore.addEventListener('click', addNewElements);
 
 function findElem(e) {
-  page = 1;
   e.preventDefault();
+  page = 1;
   resultField.innerHTML = '';
   getElements(page);
 }
@@ -63,6 +87,7 @@ function getElements(pageIndex) {
 }
 function addNewElements() {
   page++;
+  console.log(page);
   getElements(page);
 }
 
